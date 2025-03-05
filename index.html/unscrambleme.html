@@ -1,0 +1,111 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Unscramble the Words</title>
+    <style>
+        body {
+            background-color: pink;
+            text-align: center;
+            font-size: 50px;
+        }
+        input {
+            font-size: 50px;
+            text-align: center;
+            width: 600px;
+        }
+        img {
+            width: 400px;
+            height: auto;
+            margin-bottom: 20px;
+        }
+        .hidden {
+            display: none;
+        }
+        .success-message {
+            color: green;
+            font-weight: bold;
+        }
+    </style>
+</head>
+<body>
+    <!-- Instruction Page -->
+    <div id="page1">
+        <h1>Are you ready, Class?</h1>
+        <p>Task: Unscramble these words related to the cloud formation process.</p>
+        <button onclick="nextPage('page1', 'page2')">Start</button>
+    </div>
+    
+    <!-- Unscrambling Activity Pages -->
+    <div id="page2" class="hidden">
+        <img src="condensation.jpg" alt="Condensation">
+        <p>🔄 TONCENSAINDO</p>
+        <input type="text" id="word1">
+        <p id="message1"></p>
+    </div>
+    
+    <div id="page3" class="hidden">
+        <img src="evaporation.jpg" alt="Evaporation">
+        <p>🔄 RPREVIATOENA</p>
+        <input type="text" id="word2">
+        <p id="message2"></p>
+    </div>
+    
+    <div id="page4" class="hidden">
+        <img src="temperature.jpg" alt="Temperature">
+        <p>🔄 PRESAUTREMEET</p>
+        <input type="text" id="word3">
+        <p id="message3"></p>
+    </div>
+    
+    <div id="page5" class="hidden">
+        <img src="precipitation.jpg" alt="Precipitation">
+        <p>🔄 CUITPRAIPTONIE</p>
+        <input type="text" id="word4">
+        <p id="message4"></p>
+    </div>
+    
+    <!-- Completion Page -->
+    <div id="page6" class="hidden">
+        <h1>Well done, Class! 👏</h1>
+    </div>
+    
+    <script>
+        function nextPage(current, next) {
+            document.getElementById(current).classList.add("hidden");
+            document.getElementById(next).classList.remove("hidden");
+            document.querySelector(`#${next} input`).focus();
+        }
+        
+        function checkAnswer(inputId, correctWord, currentPage, nextPageId) {
+            let inputElement = document.getElementById(inputId);
+            let messageElement = document.getElementById("message" + inputId.charAt(inputId.length - 1));
+            
+            if (inputElement.value.toUpperCase() === correctWord) {
+                messageElement.innerHTML = "<span class='success-message'>Good job! 😊</span>";
+                setTimeout(function() {
+                    nextPage(currentPage, nextPageId);
+                }, 1000);
+            }
+        }
+        
+        document.addEventListener("DOMContentLoaded", function() {
+            document.querySelectorAll("input").forEach(input => {
+                input.addEventListener("input", function() {
+                    checkAnswer(this.id, this.dataset.correct, this.parentElement.id, this.dataset.next);
+                });
+            });
+        });
+        
+        document.getElementById("word1").dataset.correct = "CONDENSATION";
+        document.getElementById("word1").dataset.next = "page3";
+        document.getElementById("word2").dataset.correct = "EVAPORATION";
+        document.getElementById("word2").dataset.next = "page4";
+        document.getElementById("word3").dataset.correct = "TEMPERATURE";
+        document.getElementById("word3").dataset.next = "page5";
+        document.getElementById("word4").dataset.correct = "PRECIPITATION";
+        document.getElementById("word4").dataset.next = "page6";
+    </script>
+</body>
+</html>
